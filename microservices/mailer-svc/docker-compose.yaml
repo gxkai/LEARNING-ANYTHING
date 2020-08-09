@@ -8,7 +8,7 @@ services:
     networks:
       - "mailer-svc"
     ports:
-      - "50051:50051"
+      - "10002:50051"
     environment:
       NODE_ENV: "test"
       GRPC_HOST: "0.0.0.0"

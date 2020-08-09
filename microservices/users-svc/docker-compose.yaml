@@ -8,7 +8,7 @@ services:
     networks:
       - "users-svc"
     ports:
-      - "50051:50051"
+      - "10004:50051"
     depends_on:
       - "db"
       - "cache"

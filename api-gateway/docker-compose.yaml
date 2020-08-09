@@ -8,6 +8,9 @@ services:
       - "frontend"
     ports:
       - "3000:3000"
+      - "9229:9229"
+    volumes:
+      - ./dist:/usr/share/api-gateway/dist
     environment:
       NODE_ENV: "test"
       GRAPHQL_PORT: "3000"

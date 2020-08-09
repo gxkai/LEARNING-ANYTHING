@@ -138,6 +138,9 @@ services:
       - "frontend"
     ports:
       - "3000:3000"
+      - "9229:9229"
+    volumes:
+      - ./api-gateway/dist:/usr/share/api-gateway/dist
     depends_on:
       - "cache"
       - "comments-svc"

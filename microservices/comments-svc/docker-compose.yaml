@@ -8,7 +8,7 @@ services:
     networks:
       - "comments-svc"
     ports:
-      - "50051:50051"
+      - "10001:50051"
     depends_on:
       - "db"
       - "cache"

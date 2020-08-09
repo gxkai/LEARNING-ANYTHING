@@ -40,10 +40,13 @@
     "grpc": "1.24.2",
     "ioredis": "4.17.1",
     "lodash": "4.17.15",
+    "log4js": "^6.3.0",
+    "moment": "^2.27.0",
     "passport": "0.4.1",
     "passport-jwt": "4.0.0",
     "reflect-metadata": "0.1.13",
-    "rxjs": "6.5.5"
+    "rxjs": "6.5.5",
+    "stacktrace-js": "^2.0.2"
   },
   "devDependencies": {
     "@nestjs/cli": "7.2.0",

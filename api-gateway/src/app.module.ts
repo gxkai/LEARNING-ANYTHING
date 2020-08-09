@@ -12,6 +12,10 @@ import { PostsModule } from './posts/posts.module'
 import { UsersModule } from './users/users.module'
 
 import { playgroundQuery } from './graphql/playground-query'
+import { Logger } from './utils/log4js'
+import { formatError } from 'graphql'
+import { GraphQLError } from 'graphql/error/GraphQLError'
+import {GraphQLRequestContext, GraphQLResponse} from "apollo-server-types";
 
 @Module({
   imports: [
@@ -30,6 +34,15 @@ import { playgroundQuery } from './graphql/playground-query'
         },
         definitions: {
           path: join(__dirname, 'graphql.ts')
+        },
+        logger: Logger,
+        // todo 错误日志
+        formatError: (error: GraphQLError) => {
+          return error
+        },
+        // todo 请求日志
+        formatResponse: (response: GraphQLResponse | null, requestContext: GraphQLRequestContext<Record<string, any>>) => {
+          return response
         },
         debug: true,
         cors: false,
