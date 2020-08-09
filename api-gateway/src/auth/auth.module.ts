@@ -1,5 +1,4 @@
 import { Module, forwardRef } from '@nestjs/common'
-import { LoggerModule } from 'nestjs-pino'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { PassportModule } from '@nestjs/passport'
 import { JwtService } from '@nestjs/jwt'
@@ -13,7 +12,7 @@ import { UsersModule } from '../users/users.module'
 import { UtilsModule } from '../utils/utils.module'
 
 @Module({
-  imports: [ConfigModule, LoggerModule, UtilsModule, PassportModule.register({ defaultStrategy: 'jwt' }), forwardRef(() => UsersModule)],
+  imports: [ConfigModule, UtilsModule, PassportModule.register({ defaultStrategy: 'jwt' }), forwardRef(() => UsersModule)],
   providers: [
     AuthService,
     JwtStrategy,

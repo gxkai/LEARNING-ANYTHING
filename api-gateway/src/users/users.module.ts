@@ -1,7 +1,6 @@
 import { join } from 'path'
 import { Module, forwardRef } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { LoggerModule } from 'nestjs-pino'
 import { ClientProxyFactory, Transport, ClientGrpcProxy } from '@nestjs/microservices'
 
 import { UsersTypeResolver } from './users-type.resolver'
@@ -13,7 +12,7 @@ import { CommentsModule } from '../comments/comments.module'
 import { PostsModule } from '../posts/posts.module'
 
 @Module({
-  imports: [ConfigModule, LoggerModule, UtilsModule, forwardRef(() => CommentsModule), forwardRef(() => PostsModule)],
+  imports: [ConfigModule, UtilsModule, forwardRef(() => CommentsModule), forwardRef(() => PostsModule)],
   providers: [
     UsersTypeResolver,
     UsersQueryResolver,

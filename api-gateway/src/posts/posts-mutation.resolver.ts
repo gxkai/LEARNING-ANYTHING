@@ -3,7 +3,6 @@ import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Resolver, Args, Mutation } from '@nestjs/graphql'
 
 import { Metadata } from 'grpc'
-import { PinoLogger } from 'nestjs-pino'
 import { PubSub } from 'graphql-subscriptions'
 
 import { IPostsService } from './posts.interface'
@@ -20,12 +19,8 @@ export class PostsMutationResolver implements OnModuleInit {
     private readonly postsServiceClient: ClientGrpcProxy,
 
     @Inject('PubSubService')
-    private readonly pubSubService: PubSub,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(PostsMutationResolver.name)
-  }
+    private readonly pubSubService: PubSub
+  ) {}
 
   private postsService: IPostsService
 

@@ -1,7 +1,6 @@
 import { join } from 'path'
 import { Module, forwardRef } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { LoggerModule } from 'nestjs-pino'
 import { ClientProxyFactory, Transport, ClientGrpcProxy } from '@nestjs/microservices'
 
 import { PostsTypeResolver } from './posts-type.resolver'
@@ -15,7 +14,7 @@ import { UsersModule } from '../users/users.module'
 import { CommonsModule } from '../commons/commons.module'
 
 @Module({
-  imports: [ConfigModule, LoggerModule, CommonsModule, UtilsModule, forwardRef(() => CommentsModule), forwardRef(() => UsersModule)],
+  imports: [ConfigModule, CommonsModule, UtilsModule, forwardRef(() => CommentsModule), forwardRef(() => UsersModule)],
   providers: [
     PostsTypeResolver,
     PostsQueryResolver,

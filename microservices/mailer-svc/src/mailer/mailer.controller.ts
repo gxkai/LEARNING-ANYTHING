@@ -1,4 +1,3 @@
-import { PinoLogger } from 'nestjs-pino'
 import { Controller } from '@nestjs/common'
 import { GrpcMethod } from '@nestjs/microservices'
 import { MailerService } from '@nestjs-modules/mailer'
@@ -7,9 +6,7 @@ import { ISendMailInput, ISendMailPayload } from './mailer.interface'
 
 @Controller()
 export class MailerController {
-  constructor(private readonly service: MailerService, private readonly logger: PinoLogger) {
-    logger.setContext(MailerController.name)
-  }
+  constructor(private readonly service: MailerService) {}
 
   @GrpcMethod('MailerService', 'send')
   async send(input: ISendMailInput): Promise<ISendMailPayload> {
@@ -18,7 +15,7 @@ export class MailerController {
       data: JSON.parse(Buffer.from(input.data).toString())
     }
 
-    this.logger.info('MailerController#send.call %o', mailInput)
+    // this.logger.info('MailerController#send.call %o', mailInput)
 
     let subject = ''
 
@@ -46,7 +43,7 @@ export class MailerController {
       context: mailInput.data
     })
 
-    this.logger.info('MailerController#sent')
+    // this.logger.info('MailerController#sent')
 
     return { isSent: true }
   }

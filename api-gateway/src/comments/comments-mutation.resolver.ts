@@ -3,7 +3,6 @@ import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Resolver, Args, Mutation } from '@nestjs/graphql'
 
 import { Metadata } from 'grpc'
-import { PinoLogger } from 'nestjs-pino'
 import { PubSub } from 'graphql-subscriptions'
 
 import { CommentDto } from './comment.dto'
@@ -19,12 +18,8 @@ export class CommentsMutationResolver implements OnModuleInit {
     private readonly commentsServiceClient: ClientGrpcProxy,
 
     @Inject('PubSubService')
-    private readonly pubSubService: PubSub,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(CommentsMutationResolver.name)
-  }
+    private readonly pubSubService: PubSub
+  ) {}
 
   private commentsService: ICommentsService
 

@@ -3,8 +3,6 @@ import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Resolver, Args, Mutation, Context } from '@nestjs/graphql'
 
 import { isEmpty } from 'lodash'
-import { PinoLogger } from 'nestjs-pino'
-
 import { AuthService } from './auth.service'
 import { RefreshAuthGuard } from './refresh-auth.guard'
 import { CurrentUser } from './user.decorator'
@@ -22,12 +20,8 @@ export class AuthResolver implements OnModuleInit {
 
     private readonly authService: AuthService,
 
-    private readonly passwordUtils: PasswordUtils,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(AuthResolver.name)
-  }
+    private readonly passwordUtils: PasswordUtils
+  ) {}
 
   private usersService: IUsersService
 

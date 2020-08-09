@@ -1,9 +1,6 @@
 import { Inject, OnModuleInit, UseGuards } from '@nestjs/common'
 import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Resolver, Args, Mutation } from '@nestjs/graphql'
-
-import { PinoLogger } from 'nestjs-pino'
-
 import { IUsersService } from './users.interface'
 import { User, UserPayload, UpdateProfileInput, UpdateEmailInput, UpdatePasswordInput, DeleteAccountPayload } from '../graphql/typings'
 
@@ -17,12 +14,8 @@ export class UsersMutationResolver implements OnModuleInit {
     @Inject('UsersServiceClient')
     private readonly usersServiceClient: ClientGrpcProxy,
 
-    private readonly passwordUtils: PasswordUtils,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(UsersMutationResolver.name)
-  }
+    private readonly passwordUtils: PasswordUtils
+  ) {}
 
   private usersService: IUsersService
 

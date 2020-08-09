@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common'
-import { LoggerModule } from 'nestjs-pino'
 import { MailerModule as MailModule } from '@nestjs-modules/mailer'
 
 import { MailerController } from './mailer.controller'
 
 @Module({
-  imports: [LoggerModule, MailModule],
+  imports: [MailModule],
   controllers: [MailerController]
 })
 export class MailerModule {}

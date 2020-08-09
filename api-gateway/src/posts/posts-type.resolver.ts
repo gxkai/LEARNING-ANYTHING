@@ -3,8 +3,6 @@ import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Resolver, Args, Parent, ResolveField } from '@nestjs/graphql'
 
 import { isEmpty, merge } from 'lodash'
-import { PinoLogger } from 'nestjs-pino'
-
 import { ICommentsService } from '../comments/comments.interface'
 import { IUsersService } from '../users/users.interface'
 import { CommentsConnection, Post, User } from '../graphql/typings'
@@ -21,12 +19,8 @@ export class PostsTypeResolver implements OnModuleInit {
     @Inject('UsersServiceClient')
     private readonly usersServiceClient: ClientGrpcProxy,
 
-    private readonly queryUtils: QueryUtils,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(PostsTypeResolver.name)
-  }
+    private readonly queryUtils: QueryUtils
+  ) {}
 
   private commentsService: ICommentsService
 

@@ -3,8 +3,6 @@ import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Query, Resolver, Args } from '@nestjs/graphql'
 
 import { isEmpty, merge } from 'lodash'
-import { PinoLogger } from 'nestjs-pino'
-
 import { ICommentsService } from './comments.interface'
 import { CommentsConnection } from '../graphql/typings'
 
@@ -16,12 +14,8 @@ export class CommentsQueryResolver implements OnModuleInit {
     @Inject('CommentsServiceClient')
     private readonly commentsServiceClient: ClientGrpcProxy,
 
-    private readonly queryUtils: QueryUtils,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(CommentsQueryResolver.name)
-  }
+    private readonly queryUtils: QueryUtils
+  ) {}
 
   private commentsService: ICommentsService
 

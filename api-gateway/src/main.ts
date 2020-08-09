@@ -1,8 +1,5 @@
 import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication, ExpressAdapter } from '@nestjs/platform-express'
-import { Logger } from 'nestjs-pino'
-
-// @ts-ignore
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
@@ -20,9 +17,6 @@ async function main() {
     })
   )
   app.use(cookieParser())
-
-  app.useLogger(app.get(Logger))
-
   return app.listenAsync(configService.get<number>('GRAPHQL_PORT'))
 }
 

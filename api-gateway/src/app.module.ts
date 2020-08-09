@@ -3,9 +3,6 @@ import { join } from 'path'
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule, GqlModuleOptions } from '@nestjs/graphql'
-
-import { LoggerModule, PinoLogger } from 'nestjs-pino'
-
 import { DateTimeResolver, EmailAddressResolver, UnsignedIntResolver } from 'graphql-scalars'
 import { GraphQLJSONObject } from 'graphql-type-json'
 
@@ -19,19 +16,9 @@ import { playgroundQuery } from './graphql/playground-query'
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    LoggerModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        pinoHttp: {
-          safe: true,
-          prettyPrint: configService.get<string>('NODE_ENV') !== 'production'
-        }
-      }),
-      inject: [ConfigService]
-    }),
     GraphQLModule.forRootAsync({
-      imports: [LoggerModule],
-      useFactory: async (logger: PinoLogger): Promise<GqlModuleOptions> => ({
+      imports: [],
+      useFactory: async (): Promise<GqlModuleOptions> => ({
         path: '/',
         subscriptions: '/',
         typePaths: ['./**/*.graphql'],
@@ -44,7 +31,6 @@ import { playgroundQuery } from './graphql/playground-query'
         definitions: {
           path: join(__dirname, 'graphql.ts')
         },
-        logger,
         debug: true,
         cors: false,
         installSubscriptionHandlers: true,
@@ -64,7 +50,7 @@ import { playgroundQuery } from './graphql/playground-query'
         },
         context: ({ req, res }): any => ({ req, res })
       }),
-      inject: [PinoLogger]
+      inject: []
     }),
     AuthModule,
     UsersModule,

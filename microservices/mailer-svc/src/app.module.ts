@@ -2,24 +2,11 @@ import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { MailerModule as MailModule } from '@nestjs-modules/mailer'
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter'
-
-import { LoggerModule } from 'nestjs-pino'
-
 import { MailerModule } from './mailer/mailer.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    LoggerModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        pinoHttp: {
-          safe: true,
-          prettyPrint: configService.get<string>('NODE_ENV') !== 'production'
-        }
-      }),
-      inject: [ConfigService]
-    }),
     MailModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

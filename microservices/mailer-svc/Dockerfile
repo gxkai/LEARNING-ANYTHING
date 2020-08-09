@@ -1,14 +1,20 @@
 FROM node:12-alpine as build
 
+RUN npm config set registry https://registry.npm.taobao.org
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
 WORKDIR /usr/share/mailer-svc
 
 ADD dist package.json ./
+
+RUN npm config set registry https://registry.npm.taobao.org
 
 RUN npm install --production
 
 FROM node:12-alpine
 
-ADD https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/v0.3.2/grpc_health_probe-linux-amd64 /bin/grpc_health_probe
+ADD ./grpc_health_probe-linux-amd64 /bin/grpc_health_probe
 
 RUN chmod +x /bin/grpc_health_probe
 

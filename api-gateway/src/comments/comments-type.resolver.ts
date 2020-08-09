@@ -1,9 +1,6 @@
 import { Inject, OnModuleInit } from '@nestjs/common'
 import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Resolver, Parent, ResolveField } from '@nestjs/graphql'
-
-import { PinoLogger } from 'nestjs-pino'
-
 import { CommentDto } from './comment.dto'
 import { IPostsService } from '../posts/posts.interface'
 import { IUsersService } from '../users/users.interface'
@@ -16,12 +13,8 @@ export class CommentsTypeResolver implements OnModuleInit {
     private readonly postsServiceClient: ClientGrpcProxy,
 
     @Inject('UsersServiceClient')
-    private readonly usersServiceClient: ClientGrpcProxy,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(CommentsTypeResolver.name)
-  }
+    private readonly usersServiceClient: ClientGrpcProxy
+  ) {}
 
   private postsService: IPostsService
 

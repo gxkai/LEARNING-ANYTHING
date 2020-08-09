@@ -2,8 +2,6 @@ import { PassportStrategy } from '@nestjs/passport'
 import { ConfigService } from '@nestjs/config'
 import { Injectable, OnModuleInit, Inject } from '@nestjs/common'
 import { ClientGrpcProxy } from '@nestjs/microservices'
-
-import { PinoLogger } from 'nestjs-pino'
 import { get } from 'lodash'
 import { Strategy, ExtractJwt } from 'passport-jwt'
 
@@ -16,9 +14,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
     @Inject('UsersServiceClient')
     private readonly usersServiceClient: ClientGrpcProxy,
 
-    private readonly configService: ConfigService,
-
-    private readonly logger: PinoLogger
+    private readonly configService: ConfigService
   ) {
     super({
       secretOrKey: configService.get<string>('JWT_REFRESHTOKEN_SECRET'),
@@ -26,8 +22,6 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
       audience: configService.get<string>('JWT_AUDIENCE'),
       jwtFromRequest: ExtractJwt.fromExtractors([(req) => get(req, 'cookies.refresh-token')])
     })
-
-    logger.setContext(JwtRefreshStrategy.name)
   }
 
   private usersService: IUsersService

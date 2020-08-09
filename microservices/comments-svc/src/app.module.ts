@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { SequelizeModule, SequelizeModuleOptions } from '@nestjs/sequelize'
 
 import { Op, OperatorsAliases } from 'sequelize'
-import { LoggerModule, PinoLogger } from 'nestjs-pino'
 
 import { CommentsModule } from './comments/comments.module'
 
@@ -50,26 +49,15 @@ const operatorsAliases: OperatorsAliases = {
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    LoggerModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        pinoHttp: {
-          safe: true,
-          prettyPrint: configService.get<string>('NODE_ENV') !== 'production'
-        }
-      }),
-      inject: [ConfigService]
-    }),
     SequelizeModule.forRootAsync({
-      imports: [ConfigModule, LoggerModule],
-      useFactory: async (configService: ConfigService, logger: PinoLogger): Promise<SequelizeModuleOptions> => ({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService): Promise<SequelizeModuleOptions> => ({
         dialect: 'postgres',
         host: configService.get<string>('DB_HOST'),
         port: configService.get<number>('DB_PORT'),
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        logging: logger.info.bind(logger),
         typeValidation: true,
         benchmark: true,
         native: true,
@@ -83,7 +71,7 @@ const operatorsAliases: OperatorsAliases = {
           schema: configService.get<string>('DB_SCHEMA')
         }
       }),
-      inject: [ConfigService, PinoLogger]
+      inject: [ConfigService]
     }),
     CommentsModule
   ]

@@ -3,8 +3,6 @@ import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Query, Resolver, Args } from '@nestjs/graphql'
 
 import { isEmpty, merge } from 'lodash'
-import { PinoLogger } from 'nestjs-pino'
-
 import { IUsersService } from './users.interface'
 import { User, UsersConnection } from '../graphql/typings'
 
@@ -18,12 +16,8 @@ export class UsersQueryResolver implements OnModuleInit {
     @Inject('UsersServiceClient')
     private readonly usersServiceClient: ClientGrpcProxy,
 
-    private readonly queryUtils: QueryUtils,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(UsersQueryResolver.name)
-  }
+    private readonly queryUtils: QueryUtils
+  ) {}
 
   private usersService: IUsersService
 

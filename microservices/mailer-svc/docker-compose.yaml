@@ -9,18 +9,15 @@ services:
       - "mailer-svc"
     ports:
       - "50051:50051"
-    depends_on:
-      - "db"
-      - "cache"
     environment:
       NODE_ENV: "test"
       GRPC_HOST: "0.0.0.0"
       GRPC_PORT: "50051"
-      SMTP_HOST: "smtp.gmail.com"
-      SMTP_PORT: "587"
+      SMTP_HOST: "smtp.qq.com"
+      SMTP_PORT: "465"
       SMTP_SECURE: "true"
-      SMTP_USER: "username@gmail.com"
-      SMTP_PASS: "password"
+      SMTP_USER: "1378026744@qq.com"
+      SMTP_PASS: "0216zp"
     healthcheck:
       test: ["CMD", "/bin/grpc_health_probe", "-addr=:50051"]
       interval: 30s

@@ -2,9 +2,8 @@ import { join } from 'path'
 
 import { NestFactory } from '@nestjs/core'
 import { Transport, MicroserviceOptions } from '@nestjs/microservices'
-import { Logger } from 'nestjs-pino'
 
-import { LoggerService, INestMicroservice } from '@nestjs/common'
+import { INestMicroservice } from '@nestjs/common'
 import { AppModule } from './app.module'
 
 async function main() {
@@ -22,9 +21,6 @@ async function main() {
       }
     }
   })
-
-  app.useLogger(app.get<Logger, LoggerService>(Logger))
-
   return app.listenAsync()
 }
 

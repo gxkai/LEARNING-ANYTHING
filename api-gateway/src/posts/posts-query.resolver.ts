@@ -3,8 +3,6 @@ import { ClientGrpcProxy } from '@nestjs/microservices'
 import { Query, Resolver, Args, Context } from '@nestjs/graphql'
 
 import { isEmpty, merge } from 'lodash'
-import { PinoLogger } from 'nestjs-pino'
-
 import { IPostsService } from './posts.interface'
 import { GqlAuthGuard } from '../auth/gql-auth.guard'
 import { Post, PostsConnection } from '../graphql/typings'
@@ -17,12 +15,8 @@ export class PostsQueryResolver implements OnModuleInit {
     @Inject('PostsServiceClient')
     private readonly postsServiceClient: ClientGrpcProxy,
 
-    private readonly queryUtils: QueryUtils,
-
-    private readonly logger: PinoLogger
-  ) {
-    logger.setContext(PostsQueryResolver.name)
-  }
+    private readonly queryUtils: QueryUtils
+  ) {}
 
   private postsService: IPostsService
 
@@ -89,7 +83,6 @@ export class PostsQueryResolver implements OnModuleInit {
     @Args('filterBy') filterBy: any,
     @Args('orderBy') orderBy: string
   ): Promise<PostsConnection> {
-    this.logger.info('========USER %o', context.req.user)
     const query = { where: { author: context.req.user.id } }
 
     if (!isEmpty(q)) merge(query, { where: { title: { _iLike: q } } })
