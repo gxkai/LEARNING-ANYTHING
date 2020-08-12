@@ -3,20 +3,18 @@ import { GrpcMethod } from '@nestjs/microservices'
 import { MailerService } from '@nestjs-modules/mailer'
 
 import { ISendMailInput, ISendMailPayload } from './mailer.interface'
+import { ConfigService } from '@nestjs/config'
 
 @Controller()
 export class MailerController {
-  constructor(private readonly service: MailerService) {}
+  constructor(private readonly service: MailerService, private readonly configService: ConfigService) {}
 
   @GrpcMethod('MailerService', 'send')
   async send(input: ISendMailInput): Promise<ISendMailPayload> {
     const mailInput = {
       ...input,
-      data: JSON.parse(Buffer.from(input.data).toString())
+      data: input.newComment ?? input.signup ?? input.updateEmail ?? input.updatePassword
     }
-
-    // this.logger.info('MailerController#send.call %o', mailInput)
-
     let subject = ''
 
     switch (mailInput.template) {
@@ -38,13 +36,11 @@ export class MailerController {
 
     await this.service.sendMail({
       to: mailInput.to,
+      from: this.configService.get<string>('SMTP_USER'),
       subject,
       template: mailInput.template,
       context: mailInput.data
     })
-
-    // this.logger.info('MailerController#sent')
-
     return { isSent: true }
   }
 }

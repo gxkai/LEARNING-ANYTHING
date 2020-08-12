@@ -5,7 +5,26 @@ package mailer;
 message SendMailInput {
   string template = 1;
   string to = 2;
-  bytes data = 3;
+  NewComment newComment = 3;
+  Signup signup = 4;
+  UpdatePassword updatePassword = 5;
+  UpdateEmail updateEmail = 6;
+}
+message NewComment {
+  string postAuthor = 1;
+  string commentAuthor = 2;
+  string comment = 3;
+  string post = 4;
+}
+
+message Signup {
+  string name = 1;
+}
+message UpdatePassword {
+  string name = 1;
+}
+message UpdateEmail {
+  string name = 1;
 }
 
 message SendMailPayload {
